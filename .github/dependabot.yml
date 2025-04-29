@@ -8,8 +8,15 @@ updates:
   directory: "/"
   schedule:
     interval: "weekly"
+    day: "sunday"
+    time: "16:00"
+  groups:
+    all-actions:
+      patterns: [ "*" ]
 # Enable version updates for Docker
 - package-ecosystem: "docker"
   directory: "/"
   schedule:
     interval: "weekly"
+    day: "sunday"
+    time: "16:00"
