@@ -1,0 +1,46 @@
+name: Snyk Code Scan (Python)
+
+# Controls when the workflow will run
+on:
+  # This workflow uses the "workflow_call" event to allow it to be called from other workflows
+    workflow_call:
+  
+# Assign permissions for the workflow      
+permissions:
+  contents: read
+
+jobs:
+  security:
+    name: Snyk Code Scan (Python)
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Monitor dependencies with Snyk
+        # This step is optional, but it is recommended to run Snyk monitor to keep track of your dependencies
+        # and receive alerts for any vulnerabilities that may arise in the future.
+        # It will also create a Snyk project for your repository.
+        # This step will not fail the workflow if there are vulnerabilities found.
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        # This step uploads the SARIF file to GitHub Code Scanning
+        # Only upload if the file exists
+        if: ${{ hashFiles('**/snyk.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@main
+        with:
+          sarif_file: snyk.sarif
+          category: "snyk"

@@ -23,3 +23,7 @@ If you discover a security issue, please follow these steps to report it:
    - Provide as much information as possible, including steps to reproduce the issue, affected versions, and any potential impact.
 
 We highly value your contributions and will acknowledge your efforts in helping us maintain a secure project.
+
+## Automatic scanning and fixing
+
+Our repositories are scanned by more security tools frequently and also during push or pull requests. On the second hand, it's still possible you could find any security  issue.
