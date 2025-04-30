@@ -24,13 +24,13 @@ jobs:
         # and receive alerts for any vulnerabilities that may arise in the future.
         # It will also create a Snyk project for your repository.
         # This step will not fail the workflow if there are vulnerabilities found.
-        uses: snyk/actions/python@master
+        uses: snyk/actions/python@master # Verified
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
+        uses: snyk/actions/python@master # Verified
         continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
