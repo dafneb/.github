@@ -1,0 +1,72 @@
+name: Snyk Container Scan
+
+# Controls when the workflow will run
+on:
+  # This workflow uses the "workflow_call" event to allow it to be called from other workflows
+  workflow_call:
+    inputs:
+      working_directory:
+        required: false
+        type: string
+        default: "."
+      image_name:
+        required: true
+        type: string
+        default: "your/image-to-test"
+
+# Assign permissions for the workflow      
+permissions:
+  contents: read
+
+env:
+  wrk_dir: ${{ inputs.working_directory }}
+  img: ${{ inputs.image_name }}
+  
+jobs:
+  security:
+    name: Snyk Container Scan
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Check directory
+        run: |
+          if [ ! -d "$WRK_DIR" ]
+          then
+            echo "Directory $WRK_DIR does not exist."
+            exit 1
+          fi
+        shell: bash
+        env:
+          WRK_DIR: ${{ env.wrk_dir }}
+      - name: Check Dockerfile
+        run: |
+          if [ ! -f "$WRK_DIR/Dockerfile" ]
+          then
+            echo "Dockerfile not found in $WRK_DIR."
+            exit 1
+          fi
+        shell: bash
+        env:
+          WRK_DIR: ${{ env.wrk_dir }}
+      - name: Check Docker image name
+        run: |
+          if [[ ! "$IMG" = =~ ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(\/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)*$ ]]
+          then
+            echo "Image name is not correct."
+            exit 1
+          fi
+        shell: bash
+        env:
+          IMG: ${{ env.img }}
+      - name: Build a Docker image
+        run: |
+          docker build -t $IMG $WRK_DIR
+        shell: bash
+        env:
+          IMG: ${{ env.img }}
+          WRK_DIR: ${{ env.wrk_dir }}
