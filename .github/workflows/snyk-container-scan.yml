@@ -55,7 +55,7 @@ jobs:
           WRK_DIR: ${{ env.wrk_dir }}
       - name: Check Docker image name
         run: |
-          if [[ ! "$IMG" = =~ ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(\/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)*$ ]]
+          if [[ ! "$IMG" =~ ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(\/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)*$ ]]
           then
             echo "Image name is not correct."
             exit 1
