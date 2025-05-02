@@ -29,14 +29,14 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-          args: --all-projects
+          args: --all-projects --detection-depth=5
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master # Verified
         continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk.sarif --all-projects --detection-depth=5 
       - name: Upload result to GitHub Code Scanning
         # This step uploads the SARIF file to GitHub Code Scanning
         # Only upload if the file exists
