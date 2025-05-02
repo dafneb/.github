@@ -29,7 +29,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-          args: --all-projects --detection-depth=5
+          args: --all-projects --detection-depth=5 -d
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master # Verified
         continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
