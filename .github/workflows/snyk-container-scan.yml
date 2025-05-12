@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Check directory
         run: |
           if [ ! -d "$WRK_DIR" ]
@@ -74,7 +74,7 @@ jobs:
         # Snyk can be used to break the build when it detects vulnerabilities.
         # In this case we want to upload the issues to GitHub Code Scanning
         continue-on-error: true
-        uses: snyk/actions/docker@master
+        uses: snyk/actions/docker@cdb760004ba9ea4d525f2e043745dfe85bb9077e # Sep 6, 2024 - Verified
         env:
           # In order to use the Snyk Action you will need to have a Snyk API token.
           # See https://docs.snyk.io/integrations/ci-cd-integrations/github-actions-integration#getting-your-snyk-token
@@ -85,7 +85,7 @@ jobs:
           args: --file=${{ env.wrk_dir }}/Dockerfile
       - name: Upload result to GitHub Code Scanning
         if: ${{ hashFiles('**/snyk.sarif') != '' }}
-        uses: github/codeql-action/upload-sarif@main
+        uses: github/codeql-action/upload-sarif@60168efe1c415ce0f5521ea06d5c2062adbeed1b # v3.28.17
         with:
           sarif_file: snyk.sarif
           category: "snyk-container"
