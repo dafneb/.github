@@ -15,12 +15,3 @@ updates:
   labels:
     - "dependencies"
     - "github-actions"
-# Enable version updates for Docker
-- package-ecosystem: "docker"
-  directory: "/"
-  schedule:
-    interval: "daily"
-    time: "16:00"
-  labels:
-    - "dependencies"
-    - "docker"
