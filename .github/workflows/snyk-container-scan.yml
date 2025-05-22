@@ -1,8 +1,6 @@
 name: Snyk Container Scan
 
-# Controls when the workflow will run
 on:
-  # This workflow uses the "workflow_call" event to allow it to be called from other workflows
   workflow_call:
     inputs:
       working_directory:
@@ -14,14 +12,13 @@ on:
         type: string
         default: "your/image-to-test"
 
-# Assign permissions for the workflow      
 permissions:
   contents: read
 
 env:
   wrk_dir: ${{ inputs.working_directory }}
   img: ${{ inputs.image_name }}
-  
+
 jobs:
   security:
     name: Snyk Container Scan
@@ -71,14 +68,9 @@ jobs:
           IMG: ${{ env.img }}
           WRK_DIR: ${{ env.wrk_dir }}
       - name: Run Snyk to check Docker image for vulnerabilities
-        # Snyk can be used to break the build when it detects vulnerabilities.
-        # In this case we want to upload the issues to GitHub Code Scanning
         continue-on-error: true
         uses: snyk/actions/docker@cdb760004ba9ea4d525f2e043745dfe85bb9077e # Sep 6, 2024 - Verified
         env:
-          # In order to use the Snyk Action you will need to have a Snyk API token.
-          # See https://docs.snyk.io/integrations/ci-cd-integrations/github-actions-integration#getting-your-snyk-token
-          # or you can sign up for free at https://snyk.io/login
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ env.img }}
