@@ -7,7 +7,7 @@
 # Visual Studio Code - Server - Remote Development
 .remote/
 
-# My notes 
+# My notes
 notes.txt
 
 # Snyk Security
@@ -22,3 +22,6 @@ notes.txt
 
 # Local trash folder
 .trash/
+
+# Case folder
+case/
