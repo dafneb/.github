@@ -5,7 +5,7 @@ on:
     inputs:
       assignees:
         required: true
-        type: string  
+        type: string
 
 jobs:
   assign-assignees:

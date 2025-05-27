@@ -10,7 +10,6 @@ on:
       image_name:
         required: true
         type: string
-        default: "your/image-to-test"
 
 permissions:
   contents: read

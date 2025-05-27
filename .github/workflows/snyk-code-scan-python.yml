@@ -30,7 +30,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif --all-projects --detection-depth=5 
+          args: --sarif-file-output=snyk.sarif --all-projects --detection-depth=5
       - name: Upload result to GitHub Code Scanning
         if: ${{ hashFiles('**/snyk.sarif') != '' }}
         uses: github/codeql-action/upload-sarif@60168efe1c415ce0f5521ea06d5c2062adbeed1b # v3.28.17
