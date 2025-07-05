@@ -22,14 +22,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Monitor dependencies with Snyk
-        uses: snyk/actions/python@efcc6132b1fc8f13a1c44f5da291119718006253 # Sep 6, 2024 - Verified
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
           args: --all-projects --detection-depth=5
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@efcc6132b1fc8f13a1c44f5da291119718006253 # Sep 6, 2024 - Verified
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
         continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
