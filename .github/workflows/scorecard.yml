@@ -2,6 +2,9 @@ name: Scorecard supply-chain security
 
 on:
   workflow_call:
+    secrets:
+      SCORECARD_TOKEN:
+        required: true
 
 permissions:
   contents: read
