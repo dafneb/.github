@@ -17,6 +17,7 @@ permissions:
 env:
   wrk_dir: ${{ inputs.working_directory }}
   img: ${{ inputs.image_name }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 jobs:
   security:
@@ -26,8 +27,6 @@ jobs:
       contents: read
       security-events: write
     runs-on: ubuntu-latest
-    env:
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
