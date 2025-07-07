@@ -77,7 +77,7 @@ jobs:
         uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
         with:
           command: auth
-          args: --auth-type=token
+          args: $SNYK_TOKEN
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check Docker image for vulnerabilities
