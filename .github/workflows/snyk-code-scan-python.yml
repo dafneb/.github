@@ -2,6 +2,9 @@ name: Snyk Code Scan (Python)
 
 on:
   workflow_call:
+    secrets:
+      SNYK_TOKEN:
+        required: true
 
 permissions:
   contents: read
@@ -21,12 +24,6 @@ jobs:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Check if SNYK_TOKEN is set
-        run: |
-          if [ -z "${{ secrets.SNYK_TOKEN }}" ]; then
-            echo "SNYK_TOKEN secret is not set."
-            exit 1
-          fi
       - name: Authenticate to Snyk
         uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
         with:
