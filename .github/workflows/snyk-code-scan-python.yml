@@ -21,20 +21,26 @@ jobs:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Check if SNYK_TOKEN is set
+        run: |
+          if [ -z "${{ secrets.SNYK_TOKEN }}" ]; then
+            echo "SNYK_TOKEN secret is not set."
+            exit 1
+          fi
       - name: Authenticate to Snyk
-        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
         with:
           command: auth
           args: --auth-type=token
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Monitor dependencies with Snyk
-        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
         with:
           command: monitor
           args: --all-projects --detection-depth=5
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
         continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
         with:
           args: --sarif-file-output=snyk.sarif --all-projects --detection-depth=5
