@@ -26,6 +26,8 @@ jobs:
       contents: read
       security-events: write
     runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
@@ -70,11 +72,14 @@ jobs:
         env:
           IMG: ${{ env.img }}
           WRK_DIR: ${{ env.wrk_dir }}
+      - name: Authenticate to Snyk
+        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
+        with:
+          command: auth
+          args: --auth-type=token
       - name: Run Snyk to check Docker image for vulnerabilities
         continue-on-error: true
         uses: snyk/actions/docker@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ env.img }}
           args: --file=${{ env.wrk_dir }}/Dockerfile
