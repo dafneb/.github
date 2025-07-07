@@ -6,9 +6,6 @@ on:
 permissions:
   contents: read
 
-env:
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
 jobs:
   security:
     name: Snyk Code Scan (Python)
@@ -29,6 +26,8 @@ jobs:
         with:
           command: auth
           args: --auth-type=token
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Monitor dependencies with Snyk
         uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e # Sep 6, 2024 - Verified
         with:
