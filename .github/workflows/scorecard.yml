@@ -5,6 +5,8 @@ on:
     secrets:
       SCORECARD_TOKEN:
         required: true
+      GITHUB_TOKEN:
+        required: true
 
 permissions:
   contents: read

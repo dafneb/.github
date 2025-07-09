@@ -6,6 +6,9 @@ on:
       assignees:
         required: true
         type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 permissions:
   contents: read
@@ -18,6 +21,10 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+        with:
+          egress-policy: audit
       - name: Assign PR creator
         uses: actions-ecosystem/action-add-assignees@a5b84af721c4a621eb9c7a4a95ec20a90d0b88e9 # v1.0.1 - Not Verified
         with:
