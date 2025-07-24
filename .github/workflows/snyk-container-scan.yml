@@ -73,22 +73,25 @@ jobs:
         env:
           IMG: ${{ env.img }}
           WRK_DIR: ${{ env.wrk_dir }}
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@28606799782bc8e809f4076e9f8293bc4212d05e
       - name: Authenticate to Snyk
-        uses: snyk/actions/python@28606799782bc8e809f4076e9f8293bc4212d05e
-        with:
-          command: auth
-          args: $SNYK_TOKEN
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check Docker image for vulnerabilities
-        continue-on-error: true
-        uses: snyk/actions/docker@28606799782bc8e809f4076e9f8293bc4212d05e
-        with:
-          image: ${{ env.img }}
-          args: --file=${{ env.wrk_dir }}/Dockerfile
+        run: |
+          snyk container test $IMG --file=${{ env.wrk_dir }}/Dockerfile --sarif-file-output=snyk.sarif
+        continue-on-error: true # To make sure that SARIF upload gets called even if there are vulnerabilities
+      - name: Generate and store SBOM
+        run: |
+          snyk container sbom $IMG --file=${{ env.wrk_dir }}/Dockerfile --format=cyclonedx1.4+json > sbom.json
       - name: Upload result to GitHub Code Scanning
         if: ${{ hashFiles('**/snyk.sarif') != '' }}
-        uses: github/codeql-action/upload-sarif@4e828ff8d448a8a6e532957b1811f387a63867e8 # v3.29.4
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
           category: "snyk-container"
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
