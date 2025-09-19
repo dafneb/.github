@@ -74,7 +74,7 @@ jobs:
           IMG: ${{ env.img }}
           WRK_DIR: ${{ env.wrk_dir }}
       - name: Install Snyk CLI
-        uses: snyk/actions/setup@28606799782bc8e809f4076e9f8293bc4212d05e
+        uses: snyk/actions/setup@e2221410bff24446ba09102212d8bc75a567237d
       - name: Authenticate to Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check Docker image for vulnerabilities
