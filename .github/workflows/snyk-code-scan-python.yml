@@ -35,7 +35,7 @@ jobs:
           pip install .[dev]
         continue-on-error: true
       - name: Install Snyk CLI
-        uses: snyk/actions/setup@28606799782bc8e809f4076e9f8293bc4212d05e
+        uses: snyk/actions/setup@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
       - name: Authenticate to Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Monitor dependencies with Snyk
