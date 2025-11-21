@@ -15,6 +15,7 @@ jobs:
     name: Assign Pull Request Creator
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       issues: write
       pull-requests: write
     steps:
@@ -27,3 +28,12 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           assignees: ${{ inputs.assignees }}
+  report:
+    needs: assign-assignees
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Failure
+        run: |
+          echo "The 'Assign Pull Request Creator' workflow has failed."
+          echo "${{ toJSON(github)}}"
